@@ -1,4 +1,4 @@
-﻿=== wpCAS ===
+﻿=== wpcas ===
 Contributors: misterbisson
 Donate link: http://MaisonBisson.com/
 Tags: cas, phpcas, wpcas, central authentication service, authentication, auth, integration
@@ -29,7 +29,7 @@ If the CAS user does not have an account in the WordPress site, an administrator
 1. Set any options you want in Settings -> wpCAS _or_ in the `wpcas-conf.php` file.
 1. The plugin starts intercepting authentication attempts as soon as you activate it. Use another browser or another computer to test the configuration.
 
-= `wpcas-conf.php` =
+= wpcas-conf.php =
 wpCAS can be configured either via the settings page in the WordPress dashboard, or via a configuration file. See `wpcas-conf-sample.php` for an example. If a config file is used, it overrides any settings that might have been made via the settings page and that page is hidden. 
 
 Use of `wpcas-conf.php` is recommended for WordPressMU installations, as doing so hides the settings menu from users.
