@@ -1,4 +1,4 @@
-=== wpcas ===
+=== wpCAS ===
 Contributors: misterbisson
 Donate link: http://MaisonBisson.com/
 Tags: cas, phpcas, wpcas, central authentication service, authentication, auth, integration
