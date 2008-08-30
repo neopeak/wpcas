@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 Plugin Name: wpCAS
 Version: 1.0

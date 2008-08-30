@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
 // Optional configuration file for wpCAS plugin
 // 
