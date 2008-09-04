@@ -8,7 +8,17 @@ Author: Casey Bisson
 Author URI: http://maisonbisson.com/
 */
 
-/* Copyright (C) 2008 Casey Bisson
+/* 
+ Copyright (C) 2008 Casey Bisson
+
+ This plugin owes a huge debt to 
+ Stephen Schwink's CAS Authentication plugin, copyright (C) 2008 
+ and released under GPL. 
+ http://wordpress.org/extend/plugins/cas-authentication/
+
+ This plugin honors and extends Scwink's work, and is licensed under the same terms.
+
+
 
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -26,14 +36,9 @@ Author URI: http://maisonbisson.com/
 */
 
 
-// hide any warnings when attempting to fetch the optional config file
-$error_reporting = error_reporting(0);
-
-// attempt to fetch the optional config file
-include( 'wpcas-conf.php' );
-
-// unhide warnings
-error_reporting( $error_reporting );
+$error_reporting = error_reporting(0); // hide any warnings when attempting to fetch the optional config file
+include( dirname(__FILE__).'wpcas-conf.php' ); // attempt to fetch the optional config file
+error_reporting( $error_reporting ); // unhide warnings
 
 // do we have a valid options array? fetch the options from the DB if not
 if( !is_array( $wpcas_options )){
