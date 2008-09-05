@@ -4,17 +4,17 @@ Donate link: http://MaisonBisson.com/
 Tags: cas, phpcas, wpcas, central authentication service, authentication, auth, integration
 Requires at least: 2.5.1
 Tested up to: 2.6.1
-Stable tag: 1
+Stable tag: trunk
 
 Plugin to integrate WordPress or WordPressMU with existing <a href="http://en.wikipedia.org/wiki/Central_Authentication_Service">CAS</a> architectures. Based largely on <a href="http://schwink.net">Stephen Schwink</a>'s <a href="http://wordpress.org/extend/plugins/cas-authentication/">CAS Authentication</a> plugin. 
 
 == Description ==
 
+wpCAS integrates WordPress into an established CAS architecture, allowing centralized management and authentication of user credentials in a heterogeneous environment.
+
 <a href="http://en.wikipedia.org/wiki/Central_Authentication_Service">From Wikipedia</a>:
 
 <blockquote>The Central Authentication Service (CAS) is a single sign-on protocol for the web. Its purpose is to permit a user to log into multiple applications simultaneously and automatically. It also allows untrusted web applications to authenticate users without gaining access to a user's security credentials, such as a password. The name CAS also refers to a software package that implements this protocol.</blockquote>
-
-wpCAS integrates WordPress into an established CAS architecture, allowing centralized management and authentication of user credentials in a heterogeneous environment.
 
 Users who attempt to login to WordPress are redirected to the central CAS sign-on screen. After the user's credentials are verified, s/he is then redirected back to the WordPress site. If the CAS username matches the WordPress username, the user is recognized as valid and allowed access. 
 
