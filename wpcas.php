@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: wpCAS
-Version: 1.0
+Version: 1.01
 Plugin URI: http://maisonbisson.com/projects/wpcas
 Description: Plugin to integrate WordPress or WordPressMU with existing <a href="http://en.wikipedia.org/wiki/Central_Authentication_Service">CAS</a> single sign-on architectures. Based largely on <a href="http://schwink.net">Stephen Schwink</a>'s <a href="http://wordpress.org/extend/plugins/cas-authentication/">CAS Authentication</a> plugin. Optionally, you can set a function to execute when a CAS username isn't found in WordPress (so, for example, you could provision a WordPress account for them). 
 Author: Casey Bisson
@@ -16,7 +16,7 @@ Author URI: http://maisonbisson.com/
  and released under GPL. 
  http://wordpress.org/extend/plugins/cas-authentication/
 
- This plugin honors and extends Scwink's work, and is licensed under the same terms.
+ This plugin honors and extends Schwink's work, and is licensed under the same terms.
 
 
 
@@ -37,7 +37,7 @@ Author URI: http://maisonbisson.com/
 
 
 $error_reporting = error_reporting(0); // hide any warnings when attempting to fetch the optional config file
-include( dirname(__FILE__).'wpcas-conf.php' ); // attempt to fetch the optional config file
+include( dirname(__FILE__).'/wpcas-conf.php' ); // attempt to fetch the optional config file
 error_reporting( $error_reporting ); // unhide warnings
 
 // do we have a valid options array? fetch the options from the DB if not
@@ -101,7 +101,7 @@ class wpCAS {
 				wp_set_auth_cookie( $user->ID );
 				if( isset( $_REQUEST['redirect_to'] ))
 					wp_redirect( $_REQUEST['redirect_to'] );
-				wp_redirect('/wp-admin/');
+				wp_redirect( site_url( '/wp-admin/' ));
 			}else{
 				// the CAS user _does_not_have_ a WP account
 				if (function_exists( 'wpcas_nowpuser' ))
