@@ -14,7 +14,7 @@ Plugin to integrate WordPress or WordPressMU with existing <a href="http://en.wi
 
 <blockquote>The Central Authentication Service (CAS) is a single sign-on protocol for the web. Its purpose is to permit a user to log into multiple applications simultaneously and automatically. It also allows untrusted web applications to authenticate users without gaining access to a user's security credentials, such as a password. The name CAS also refers to a software package that implements this protocol.</blockquote>
 
-wpCAS integrates WordPress into an established CAS architecture, allowing centralized management and athentication of user credentials in a heterogeneous environment.
+wpCAS integrates WordPress into an established CAS architecture, allowing centralized management and authentication of user credentials in a heterogeneous environment.
 
 Users who attempt to login to WordPress are redirected to the central CAS sign-on screen. After the user's credentials are verified, s/he is then redirected back to the WordPress site. If the CAS username matches the WordPress username, the user is recognized as valid and allowed access. 
 
@@ -48,6 +48,9 @@ Use of `wpcas-conf.php` is recommended for WordPressMU installations, as doing s
 = What version of phpCAS should I use? =
 I've only tested it with the 1.0 release available from ja-sig.
 
+= How's it work? =
+Users who attempt to login to WordPress are redirected to the central CAS sign-on screen. After the user's credentials are verified, s/he is then redirected back to the WordPress site. If the CAS username matches the WordPress username, the user is recognized as valid and allowed access. If the CAS username does not exist in WordPress, you can define a function that could provision the user in the site.
+
 = You keep talking about provisioning users. How? =
 Each environment is different; each environment probably needs its own solution for this. I've posted my <a href="http://maisonbisson.com/projects/wpcas">user provisioning script</a> here, if you find something in there that works, <a href="http://maisonbisson.com/projects/wpcas">leave a comment</a>.
 
@@ -55,4 +58,4 @@ Each environment is different; each environment probably needs its own solution 
 There is none.
 
 = This looks familiar... =
-<a href="http://schwink.net">Stephen Schwink</a>'s <a href="http://wordpress.org/extend/plugins/cas-authentication/">CAS Authentication</a> plugin. This plugin would be a lot different if I couldn't lean on Stephen's excellent work. My primary reasons for branching (under the the terms of the GPL) were that I wanted it to work better with WPMU and needed an easier way to hook-in functions to provision users and wanted to do that while also making it easy to upgrade using SVN (thus the config file).
+You might be thinking of <a href="http://schwink.net">Stephen Schwink</a>'s <a href="http://wordpress.org/extend/plugins/cas-authentication/">CAS Authentication</a> plugin. This plugin would be a lot different if I couldn't lean on Stephen's excellent work. My primary reasons for branching (under the the terms of the GPL) were that I wanted it to work better with WPMU and needed an easier way to hook-in functions to provision users and wanted to do that while also making it easy to upgrade using SVN (thus the config file).
