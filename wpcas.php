@@ -100,8 +100,8 @@ class wpCAS {
 				// the CAS user has a WP account
 				wp_set_auth_cookie( $user->ID );
 				if( isset( $_REQUEST['redirect_to'] ))
-					wp_redirect( $_REQUEST['redirect_to'] );
-				wp_redirect( site_url( '/wp-admin/' ));
+					wp_redirect( function_exists( 'site_url' )  ? site_url( $_REQUEST['redirect_to'] ) : $_REQUEST['redirect_to'] );
+				wp_redirect( function_exists( 'site_url' )  ? site_url( '/wp-admin/' ) : '/wp-admin/' );
 			}else{
 				// the CAS user _does_not_have_ a WP account
 				if (function_exists( 'wpcas_nowpuser' ))
