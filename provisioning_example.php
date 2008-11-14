@@ -1,15 +1,20 @@
 <?php
 /*
 
-The following script is used to automatically provision new WordPress MU users who have successfully authenticated with CAS using the wpCAS plugin.
+The following script is used to automatically provision new WordPress MU users who 
+have successfully authenticated with CAS using the wpCAS plugin.
 
-To use this, make the necessary local modifications and put it in the root of your WordPress MU install. Then in your wpcas-conf.php file (or anywhere else that it'll be callable) defines a wpcas_nowpuser() function like this:
+To use this, make the necessary local modifications and put it in the root of your 
+WordPress MU install. Then in your wpcas-conf.php file (or anywhere else that it'll 
+be callable) defines a wpcas_nowpuser() function like this:
 
 function wpcas_nowpuser( $user_name ){
 	wp_redirect('your-provisioning-script.php');
 }
 
-Then, whenever a user successfully authenticates with CAS, but doesn't have a matching username in your MU site, it will redirect to this script to provision the user's account and blog.
+Then, whenever a user successfully authenticates with CAS, but doesn't have a 
+matching username in your MU site, it will redirect to this script to provision 
+the user's account and blog.
 
 */
 
