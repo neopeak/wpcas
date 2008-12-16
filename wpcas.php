@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: wpCAS
-Version: 1.03
+Version: 1.04
 Plugin URI: http://maisonbisson.com/projects/wpcas
 Description: Plugin to integrate WordPress or WordPressMU with existing <a href="http://en.wikipedia.org/wiki/Central_Authentication_Service">CAS</a> single sign-on architectures. Based largely on <a href="http://schwink.net">Stephen Schwink</a>'s <a href="http://wordpress.org/extend/plugins/cas-authentication/">CAS Authentication</a> plugin. Optionally, you can set a function to execute when a CAS username isn't found in WordPress (so, for example, you could provision a WordPress account for them). 
 Author: Casey Bisson
@@ -130,6 +130,12 @@ class wpCAS {
 
 	// hide password fields on user profile page.
 	function show_password_fields( $show_password_fields ) {
+		$random_password = substr( md5( uniqid( microtime( ))), 0, 8 );
+
+?>
+<input name="pass1" type="hidden" id="pass1" value="<?php echo $random_password ?>" />
+<input name="pass2" type="hidden" id="pass2" value="<?php echo $random_password ?>" />
+<?php
 		return false;
 	}
 
