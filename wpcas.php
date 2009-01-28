@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: wpCAS
-Version: 1.04
+Version: 1.05
 Plugin URI: http://maisonbisson.com/projects/wpcas
 Description: Plugin to integrate WordPress or WordPressMU with existing <a href="http://en.wikipedia.org/wiki/Central_Authentication_Service">CAS</a> single sign-on architectures. Based largely on <a href="http://schwink.net">Stephen Schwink</a>'s <a href="http://wordpress.org/extend/plugins/cas-authentication/">CAS Authentication</a> plugin. Optionally, you can set a function to execute when a CAS username isn't found in WordPress (so, for example, you could provision a WordPress account for them). 
 Author: Casey Bisson
@@ -37,13 +37,13 @@ Author URI: http://maisonbisson.com/
 
 
 $error_reporting = error_reporting(0); // hide any warnings when attempting to fetch the optional config file
-include( dirname(__FILE__).'/wpcas-conf.php' ); // attempt to fetch the optional config file
+include_once( dirname(__FILE__).'/wpcas-conf.php' ); // attempt to fetch the optional config file
 error_reporting( $error_reporting ); // unhide warnings
 
 // do we have a valid options array? fetch the options from the DB if not
 if( !is_array( $wpcas_options )){
-	$wpcas_options = get_option('wpcas_options');
-	add_action('admin_menu', 'wpcas_options_page_add');
+	$wpcas_options = get_option( 'wpcas_options' );
+	add_action( 'admin_menu', 'wpcas_options_page_add' );
 }
 
 $cas_configured = true;
