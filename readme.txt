@@ -2,8 +2,8 @@
 Contributors: misterbisson
 Donate link: http://MaisonBisson.com/
 Tags: cas, phpcas, wpcas, central authentication service, authentication, auth, integration
-Requires at least: 2.5.1
-Tested up to: 2.6.5
+Requires at least: 2.7
+Tested up to: 2.7.1
 Stable tag: trunk
 
 Plugin to integrate WordPress or WordPressMU with existing <a href="http://en.wikipedia.org/wiki/Central_Authentication_Service">CAS</a> architectures. Based largely on <a href="http://schwink.net">Stephen Schwink</a>'s <a href="http://wordpress.org/extend/plugins/cas-authentication/">CAS Authentication</a> plugin. 
