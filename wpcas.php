@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: wpCAS
-Version: 1.06
+Version: 1.07
 Plugin URI: http://maisonbisson.com/projects/wpcas
 Description: Plugin to integrate WordPress or WordPressMU with existing <a href="http://en.wikipedia.org/wiki/Central_Authentication_Service">CAS</a> single sign-on architectures. Based largely on <a href="http://schwink.net">Stephen Schwink</a>'s <a href="http://wordpress.org/extend/plugins/cas-authentication/">CAS Authentication</a> plugin. Optionally, you can set a function to execute when a CAS username isn't found in WordPress (so, for example, you could provision a WordPress account for them). 
 Author: Casey Bisson
@@ -100,9 +100,10 @@ class wpCAS {
 				// the CAS user has a WP account
 				wp_set_auth_cookie( $user->ID );
 
-				if( isset( $_GET['redirect_to'] ))
+				if( isset( $_GET['redirect_to'] )){
 					wp_redirect( preg_match( '/^http/', $_GET['redirect_to'] ) ? $_GET['redirect_to'] : site_url( $_GET['redirect_to'] ));
 					die();
+				}
 
 				wp_redirect( site_url( '/wp-admin/' ));
 				die();
