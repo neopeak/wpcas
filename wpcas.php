@@ -78,11 +78,11 @@ add_action('wp_authenticate', array('wpCAS', 'authenticate'), 10, 2);
 add_action('wp_logout', array('wpCAS', 'logout'));
 add_action('lost_password', array('wpCAS', 'disable_function'));
 add_action('retrieve_password', array('wpCAS', 'disable_function'));
+add_action('check_passwords', array('wpCAS', 'check_passwords'), 10, 3);
 add_action('password_reset', array('wpCAS', 'disable_function'));
 add_filter('show_password_fields', array('wpCAS', 'show_password_fields'));
 
 class wpCAS {
-	
 	/*
 	 We call phpCAS to authenticate the user at the appropriate time 
 	 (the script dies there if login was unsuccessful)
@@ -90,7 +90,7 @@ class wpCAS {
 	*/
 	function authenticate() {
 		global $wpcas_options, $cas_configured;
-
+		
 		if ( !$cas_configured )
 			die( __( 'wpCAS plugin not configured', 'wpcas' ));
 
@@ -136,21 +136,19 @@ class wpCAS {
 
 	// hide password fields on user profile page.
 	function show_password_fields( $show_password_fields ) {
-		if( 'user-new.php' <> basename( $_SERVER['PHP_SELF'] ))
-			return false;
-
-		$random_password = substr( md5( uniqid( microtime( ))), 0, 8 );
-
-?>
-<input name="pass1" type="hidden" id="pass1" value="<?php echo $random_password ?>" />
-<input name="pass2" type="hidden" id="pass2" value="<?php echo $random_password ?>" />
-<?php
 		return false;
 	}
 
 	// disabled reset, lost, and retrieve password features
 	function disable_function() {
 		die( __( 'Sorry, this feature is disabled.', 'wpcas' ));
+	}
+
+	// set the passwords on user creation
+	// patched Mar 25 2010 by Jonathan Rogers jonathan via findyourfans.com
+	function check_passwords( $user, $pass1, $pass2 ) {
+		$random_password = substr( md5( uniqid( microtime( ))), 0, 8 );
+		$pass1=$pass2=$random_password;
 	}
 }
 
