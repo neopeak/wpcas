@@ -1,9 +1,6 @@
 <?php
 /*
-// Optional configuration file for wpCAS plugin
-// 
-// Settings in this file override any options set in the 
-// wpCAS menu in Options and that menu will not be displayed
+// Required configuration file for wpCAS plugin
 */
 
 
