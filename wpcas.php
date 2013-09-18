@@ -64,6 +64,10 @@ if ($cas_configured) {
 		$wpcas_options['server_hostname'], 
 		intval($wpcas_options['server_port']), 
 		$wpcas_options['server_path']);
+
+	if (isset($wpcas_options['gateway_mode_check_times'])) {
+		phpCAS::setCacheTimesForAuthRecheck($wpcas_options['gateway_mode_check_times']);
+	}
 	
 	// function added in phpCAS v. 0.6.0
 	// checking for static method existance is frustrating in php4
@@ -71,10 +75,12 @@ if ($cas_configured) {
 	if (method_exists($phpCas, 'setNoCasServerValidation'))
 		phpCAS::setNoCasServerValidation();
 	unset($phpCas);
+
 	// if you want to set a cert, replace the above few lines
- }
+}
 
 // plugin hooks into authentication system
+add_action('init', array('wpCAS', 'init'));
 add_action('wp_authenticate', array('wpCAS', 'authenticate'), 10, 2);
 add_action('wp_logout', array('wpCAS', 'logout'));
 add_action('lost_password', array('wpCAS', 'disable_function'));
@@ -83,30 +89,51 @@ add_action('check_passwords', array('wpCAS', 'check_passwords'), 10, 3);
 add_action('password_reset', array('wpCAS', 'disable_function'));
 add_filter('show_password_fields', array('wpCAS', 'show_password_fields'));
 
+
 class wpCAS {
+
+  function init() {
+    global $wpcas_options;
+
+    // gateway mode support
+    if ($wpcas_options['gateway_mode']) {
+      wpCAS::authenticate(true);
+    }
+  }
+
 	/*
 	 We call phpCAS to authenticate the user at the appropriate time 
 	 (the script dies there if login was unsuccessful)
 	 If the user is not provisioned, wpcas_nowpuser() is called
 	*/
-	function authenticate() {
+	function authenticate($gatewayMode=false) {
 		global $wpcas_options, $cas_configured;
 		
 		if ( !$cas_configured )
 			die( __( 'wpCAS plugin not configured', 'wpcas' ));
 
 		if( phpCAS::isAuthenticated() ){
+
+			if ($gatewayMode && get_current_user_id() > 0) {
+				// user is already logged
+				return;
+			}
+
 			// CAS was successful
 			if ( $user = get_userdatabylogin( phpCAS::getUser() )){ // user already exists
 				// the CAS user has a WP account
 				wp_set_auth_cookie( $user->ID );
+
+				// Allow custom user profile sync
+				if (function_exists( 'wpcas_syncuser' ))
+					wpcas_syncuser( phpCAS::getUser(), phpCAS::getAttributes() );
 
 				if( isset( $_GET['redirect_to'] )){
 					wp_redirect( preg_match( '/^http/', $_GET['redirect_to'] ) ? $_GET['redirect_to'] : site_url( $_GET['redirect_to'] ));
 					die();
 				}
 
-				wp_redirect( site_url( '/wp-admin/' ));
+				wp_redirect( site_url( '/' ));
 				die();
 
 			}else{
@@ -118,8 +145,12 @@ class wpCAS {
 			}
 		}else{
 			// hey, authenticate
-			phpCAS::forceAuthentication();
-			die();
+			if ($gatewayMode) {
+				phpCAS::checkAuthentication();
+			} else {
+				phpCAS::forceAuthentication();
+				die();
+			}
 		}
 	}
 	
