@@ -49,7 +49,7 @@ if( !is_array( $wpcas_options ))
 else if ($wpcas_options['include_path'] == '')
 	$cas_configured = false;
 
-else if (include_once $wpcas_options['include_path']) != true)
+else if ((include_once $wpcas_options['include_path']) != true)
 	$cas_configured = false;
 
 else if ($wpcas_options['server_hostname'] == '' ||
