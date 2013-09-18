@@ -1,23 +1,24 @@
 <?php
 /*
-Plugin Name: wpCAS
-Version: 1.07
-Plugin URI: http://maisonbisson.com/projects/wpcas
-Description: Plugin to integrate WordPress or WordPressMU with existing <a href="http://en.wikipedia.org/wiki/Central_Authentication_Service">CAS</a> single sign-on architectures. Based largely on <a href="http://schwink.net">Stephen Schwink</a>'s <a href="http://wordpress.org/extend/plugins/cas-authentication/">CAS Authentication</a> plugin. Optionally, you can set a function to execute when a CAS username isn't found in WordPress (so, for example, you could provision a WordPress account for them). 
-Author: Casey Bisson
-Author URI: http://maisonbisson.com/
+Plugin Name: Advanced wpCAS
+Version: 1.0.0-dev
+Plugin URI: https://github.com/neopeak/wpcas
+Description: Plugin to integrate WordPress with existing <a href="http://en.wikipedia.org/wiki/Central_Authentication_Service">CAS</a> single sign-on architectures. Forked from <a href="http://maisonbisson.com/projects/wpcas">Casey Bisson</a>'s wpCAS plugin.
+Author: Cedric Veilleux
+Author URI: http://www.neopeak.com/
 */
 
-/* 
- Copyright (C) 2008 Casey Bisson
+/*
 
- This plugin owes a huge debt to 
- Stephen Schwink's CAS Authentication plugin, copyright (C) 2008 
- and released under GPL. 
- http://wordpress.org/extend/plugins/cas-authentication/
+ Some changes Copyright (C) 2013 Cedric Veilleux
 
- This plugin honors and extends Schwink's work, and is licensed under the same terms.
+ Based on the work of Casey Bisson:
+  Copyright (C) 2008 Casey Bisson
+  http://wordpress.org/extend/plugins/wpcas/
 
+ Which was based on the work of Stephen Schwink
+  Copyright (C) 2008 Stephen Schwink
+  http://wordpress.org/extend/plugins/cas-authentication/
 
 
  This program is free software; you can redistribute it and/or modify
