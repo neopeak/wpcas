@@ -7,7 +7,7 @@
 // the configuration array
 $wpcas_options = array(
 	'cas_version' => '2.0',
-	'include_path' => '/absolute/path/to/CAS.php',
+	'include_path' => 'phpCAS/source/CAS.php',
 	'server_hostname' => 'server.university.edu',
 	'server_port' => '443',
 	'server_path' => '/url-path/',
