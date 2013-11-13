@@ -97,7 +97,7 @@ class wpCAS {
 	/*
 	 We call phpCAS to authenticate the user at the appropriate time
 	 (the script dies there if login was unsuccessful)
-	 If the user is not provisioned, wpcas_nowpuser() is called
+	 If the user is not provisioned, 'provision_user_function' is called
 	*/
 	function authenticate($gatewayMode=false) {
 		global $wpcas_options, $cas_configured;
@@ -129,8 +129,8 @@ class wpCAS {
 		if (!$user) {
 
 		  // the CAS user _does_not_have_ a WP account
-		  if (function_exists( 'wpcas_nowpuser' ))
-		    $user = wpcas_nowpuser( phpCAS::getUser() );
+		  if (!empty($wpcas_options['provision_user_function']) && function_exists( $wpcas_options['provision_user_function']))
+		    $user = call_user_func($wpcas_options['provision_user_function'], phpCAS::getUser());
 
 		  if (!$user) {
 		    // There is no automated user provisioning or user provisioning refused to create a user
@@ -142,8 +142,8 @@ class wpCAS {
 	  // user exists, complete the login:
 
 		// Allow custom user profile sync
-		if (function_exists( 'wpcas_syncuser' ))
-			wpcas_syncuser( phpCAS::getUser(), phpCAS::getAttributes() );
+		if (!empty($wpcas_options['sync_user_function']) && function_exists( $wpcas_options['sync_user_function']))
+			call_user_func($wpcas_options['sync_user_function'], phpCAS::getUser(), phpCAS::getAttributes());
 
 		// reload the user after the sync
 		$user = get_userdatabylogin( phpCAS::getUser() );
