@@ -33,7 +33,7 @@ Author URI: http://www.neopeak.com/
 
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
- Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA	 02111-1307	 USA 
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA	 02111-1307	 USA
 */
 
 
@@ -59,15 +59,15 @@ else if ($wpcas_options['server_hostname'] == '' ||
 
 // Init phpCAS
 if ($cas_configured) {
-	phpCAS::client($wpcas_options['cas_version'], 
-		$wpcas_options['server_hostname'], 
-		intval($wpcas_options['server_port']), 
+	phpCAS::client($wpcas_options['cas_version'],
+		$wpcas_options['server_hostname'],
+		intval($wpcas_options['server_port']),
 		$wpcas_options['server_path']);
 
 	if (isset($wpcas_options['gateway_mode_check_times'])) {
 		phpCAS::setCacheTimesForAuthRecheck($wpcas_options['gateway_mode_check_times']);
 	}
-	
+
 	// TODO: add support for configuring a cert
 	phpCAS::setNoCasServerValidation();
 }
@@ -95,59 +95,80 @@ class wpCAS {
   }
 
 	/*
-	 We call phpCAS to authenticate the user at the appropriate time 
+	 We call phpCAS to authenticate the user at the appropriate time
 	 (the script dies there if login was unsuccessful)
 	 If the user is not provisioned, wpcas_nowpuser() is called
 	*/
 	function authenticate($gatewayMode=false) {
 		global $wpcas_options, $cas_configured;
-		
+
 		if ( !$cas_configured )
 			die( __( 'wpCAS plugin not configured', 'wpcas' ));
 
-		if( phpCAS::isAuthenticated() ){
+		if( !phpCAS::isAuthenticated() ){
+		  // hey, authenticate
+		  if ($gatewayMode) {
+		    phpCAS::checkAuthentication();
+		    return;
 
-			if ($gatewayMode && get_current_user_id() > 0) {
-				// user is already logged
-				return;
-			}
+		  } else {
+		    phpCAS::forceAuthentication();
+		    die();
 
-			// CAS was successful
-			if ( $user = get_userdatabylogin( phpCAS::getUser() )){ // user already exists
-				// the CAS user has a WP account
-				wp_set_auth_cookie( $user->ID );
-
-				// Allow custom user profile sync
-				if (function_exists( 'wpcas_syncuser' ))
-					wpcas_syncuser( phpCAS::getUser(), phpCAS::getAttributes() );
-
-				if( isset( $_GET['redirect_to'] )){
-					wp_redirect( preg_match( '/^http/', $_GET['redirect_to'] ) ? $_GET['redirect_to'] : site_url( $_GET['redirect_to'] ));
-					die();
-				}
-
-				wp_redirect( site_url( '/' ));
-				die();
-
-			}else{
-				// the CAS user _does_not_have_ a WP account
-				if (function_exists( 'wpcas_nowpuser' ))
-					wpcas_nowpuser( phpCAS::getUser() );
-				else
-					die( __( 'you do not have permission here', 'wpcas' ));
-			}
-		}else{
-			// hey, authenticate
-			if ($gatewayMode) {
-				phpCAS::checkAuthentication();
-			} else {
-				phpCAS::forceAuthentication();
-				die();
-			}
+		  }
 		}
+
+		if ($gatewayMode && get_current_user_id() > 0) {
+			// user is already logged
+			return;
+		}
+
+		// CAS was successful
+		$user = get_userdatabylogin( phpCAS::getUser() );
+
+		if (!$user) {
+
+		  // the CAS user _does_not_have_ a WP account
+		  if (function_exists( 'wpcas_nowpuser' ))
+		    $user = wpcas_nowpuser( phpCAS::getUser() );
+
+		  if (!$user) {
+		    // There is no automated user provisioning or user provisioning refused to create a user
+		    die( __( 'you do not have permission here', 'wpcas' ));
+		  }
+
+		}
+
+	  // user exists, complete the login:
+
+		// Allow custom user profile sync
+		if (function_exists( 'wpcas_syncuser' ))
+			wpcas_syncuser( phpCAS::getUser(), phpCAS::getAttributes() );
+
+		// reload the user after the sync
+		$user = get_userdatabylogin( phpCAS::getUser() );
+
+		if (!$user) {
+		  // The sync deleted the user. Fail.
+		  die( __( 'you do not have permission here', 'wpcas' ));
+		}
+
+		wp_set_auth_cookie( $user->ID );
+
+		// Allow other plugins to act on user login
+		do_action('wp_login', $user->user_login, $user);
+
+		if( isset( $_GET['redirect_to'] )){
+			wp_redirect( preg_match( '/^http/', $_GET['redirect_to'] ) ? $_GET['redirect_to'] : site_url( $_GET['redirect_to'] ));
+			die();
+		}
+
+		wp_redirect( site_url( '/' ));
+		die();
+
 	}
-	
-	
+
+
 	// hook CAS logout to WP logout
 	function logout() {
 		global $cas_configured;
