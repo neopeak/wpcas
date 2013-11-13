@@ -1,0 +1,3 @@
+[submodule "phpCAS"]
+	path = phpCAS
+	url = git@github.com:neopeak/phpCAS.git
