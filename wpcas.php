@@ -163,7 +163,7 @@ class wpCAS {
 			die();
 		}
 
-		wp_redirect( site_url( '/' ));
+		wp_redirect( $_SERVER["REQUEST_URI"] );
 		die();
 
 	}
