@@ -138,6 +138,8 @@ class wpCAS {
 	}
 
 	function finish_login() {
+	  global $wpcas_options;
+
 	  // CAS was successful
 	  $user = get_userdatabylogin( phpCAS::getUser() );
 
